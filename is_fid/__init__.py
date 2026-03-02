@@ -1,0 +1,2 @@
+from .calculate_FID import frechet_inception_distance_score
+from .calculate_IS import inception_score
