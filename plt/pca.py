@@ -5,10 +5,9 @@ import matplotlib.pyplot as plt
 import torch
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from torch import nn
 from torchvision import models
 
-from init_function import init_resnet18
+from utils.init_function import init_resnet18
 
 parser = argparse.ArgumentParser(description='。。。')
 parser.add_argument('--model', default="resnet18", type=str, help='模型, 可选:alexnet, vgg16, resnet18, densenet121, vit_b_16, LSTM, Transformer')

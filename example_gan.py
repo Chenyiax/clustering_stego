@@ -1,25 +1,15 @@
 import argparse
 import os
-import numpy as np
-import math
 
-import torchvision.transforms as transforms
 from torch import Tensor
 from torchvision.utils import save_image
 
-from torch.utils.data import DataLoader
-from torchvision import datasets
-from torch.autograd import Variable
-
-import torch.nn as nn
-import torch.nn.functional as F
-import torch
 from tqdm import tqdm
 
 from clustering_stego import ClusteringStego
-from gan_models import *
-from get_data import get_mnist_data_gan
-from init_function import init_gan
+from model_gan import *
+from utils.get_data import get_mnist_data_gan
+from utils.init_function import init_gan
 from is_fid import inception_score, frechet_inception_distance_score
 
 

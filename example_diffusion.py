@@ -1,15 +1,13 @@
 import argparse
 
 import torch
-import torchvision
 from torchvision.utils import save_image
 
 from clustering_stego import ClusteringStego
-from get_data import get_mnist_data_gan, get_mnist_data_vae
-from init_function import init_gan
+from utils.get_data import get_mnist_data_vae
+from utils.init_function import init_gan
 from is_fid import inception_score, frechet_inception_distance_score
 from utils.denoising_diffusion_pytorch import Unet, GaussianDiffusion
-from utils.function import get_model_params
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--n_epochs", type=int, default=10, help="训练轮数")
@@ -67,10 +65,13 @@ for epoch in range(epochs):
         loss.backward()
         optimizer.step()
 
-torch.save(model, f'model/{model.__class__.__name__}_{opt.embedding_secret}.pth')
+# torch.save(model, f'model/{model.__class__.__name__}_{opt.embedding_secret}.pth')
+
 generated_images = diffusion.sample(batch_size=64)
 gen_imgs = generated_images.reshape(-1, 1, 28, 28)
-save_image(gen_imgs.data[:25], f"images/diffusion_{opt.embedding_secret}.png", nrow=5, normalize=True)
+
+# save_image(gen_imgs.data[:25], f"images/diffusion_{opt.embedding_secret}.png", nrow=5, normalize=True)
+
 gen_imgs = gen_imgs.expand(-1, 3, -1, -1).float()
 # 计算Inception Score
 is_score = inception_score(gen_imgs)

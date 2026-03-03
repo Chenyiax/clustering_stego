@@ -1,21 +1,16 @@
 import argparse
 
-import torch
-import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
 from torchvision.utils import save_image
-import torch.nn.functional as F
 
 from clustering_stego import ClusteringStego
-from get_data import get_mnist_data_vae
-from init_function import init_gan
+from utils.get_data import get_mnist_data_vae
+from utils.init_function import init_gan
 from is_fid import inception_score, frechet_inception_distance_score
-from vae_model import *
+from model_vae import *
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--model_name", type=str, default="VAE", help="模型名称, 可选VAE, CVAE")
 parser.add_argument("--n_epochs", type=int, default=100, help="训练轮数")
 parser.add_argument("--batch_size", type=int, default=64, help="批次大小")
 parser.add_argument("--lr", type=float, default=5e-5, help="优化器学习率")
@@ -32,8 +27,12 @@ train_loader,_ = get_mnist_data_vae(opt.batch_size)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 input_dim = opt.img_size ** 2
 
-model = VAE(input_dim, opt.latent_dim)
-# model = CVAE(opt.latent_dim)
+if opt.model_name == "VAE":
+    model = VAE(input_dim, opt.latent_dim)
+elif opt.model_name == "CVAE":
+    model = CVAE(opt.latent_dim)
+else:
+    raise ValueError("model_name must be VAE or CVAE")
 
 # torch.save(model.state_dict(), f"model/{model.__class__.__name__}_init_original.pth")
 model.load_state_dict(torch.load(f"model/{model.__class__.__name__}_init_original.pth"))

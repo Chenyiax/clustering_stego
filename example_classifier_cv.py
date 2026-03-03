@@ -1,15 +1,10 @@
 import argparse
-import importlib
 import time
 
-
 from clustering_stego import ClusteringStego
-from train import *
-import init_function
-from utils.function import get_model_params
+from utils.train import *
+from utils import init_function
 from torchvision import models
-
-from utils.init import kaiming_init, xavier_init
 
 parser = argparse.ArgumentParser(description='。。。')
 parser.add_argument('--model', default="densenet121", type=str, help='模型, 可选:alexnet, vgg16, resnet18, densenet121, vit_b_16')
@@ -22,7 +17,7 @@ parser.add_argument('--params_num', default=2048, type=int, help='目标参数�
 args = parser.parse_args()
 
 # 动态导入模块
-module = importlib.import_module("get_data")
+module = importlib.import_module("utils.get_data")
 # 使用 getattr 获取函数对象
 func = getattr(module, "get_"+args.dataset+"_data")
 # 加载数据集
@@ -31,7 +26,7 @@ train_loader, test_loader = func()
 epoch_dict = {'mnist': 10, 'fashionmnist': 30, 'cifar10': 100}
 
 # 载体模型的初始化方法
-init_func = getattr(init_function, "init_"+args.model)
+init_func = getattr(init_function, "init_" + args.model)
 
 # 初始化隐写对象
 cs = ClusteringStego(init_func, target_var=args.target_var, min_nums=args.params_num, BCH=args.BCH, alpha=args.alpha)
@@ -69,9 +64,9 @@ loss_list = train_classifier(model, train_loader, criterion, optm, num_epochs=ep
 # loss_list, extract_acc_list, extract_acc_bch_list = train_classifier_with_extract(model, train_loader, criterion, optm, cs, secret_bits, secret_bits_bch, num_epochs=100)
 test_classifier(model, test_loader, criterion)
 
-torch.save(model.state_dict(), f"model/{args.model}_{args.dataset}_with_secret_var{args.target_var}.pth")
-torch.save({'secret_bits': secret_bits, 'secret_bits_bch': secret_bits_bch}, f"data/secret_{args.model}_{args.dataset}_var{args.target_var}.pth")
-torch.save(loss_list, f"data/loss_{args.model}_{args.dataset}_with_secret_var{args.target_var}.pth")
+# torch.save(model.state_dict(), f"model/{args.model}_{args.dataset}_with_secret_var{args.target_var}.pth")
+# torch.save({'secret_bits': secret_bits, 'secret_bits_bch': secret_bits_bch}, f"data/secret_{args.model}_{args.dataset}_var{args.target_var}.pth")
+# torch.save(loss_list, f"data/loss_{args.model}_{args.dataset}_with_secret_var{args.target_var}.pth")
 # torch.save({'extract_acc_list': extract_acc_list, 'extract_acc_bch_list': extract_acc_bch_list}, f"data/extract_acc_{args.model}_{args.dataset}_var{args.target_var}.pth")
 
 # 提取秘密信息

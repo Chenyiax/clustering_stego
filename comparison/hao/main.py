@@ -1,5 +1,4 @@
 import argparse
-import importlib
 
 import torch
 import torch.nn as nn
@@ -8,10 +7,8 @@ import numpy as np
 import torch.nn.functional as F
 import torch.nn.init as init
 from torchvision import datasets, transforms
-from torchvision.models import resnet18, vgg16, alexnet
 from tqdm import tqdm
 from torchvision import models
-from get_data import get_mnist_data
 from utils.cutout import Cutout
 
 # 设置设备 (CUDA or CPU)

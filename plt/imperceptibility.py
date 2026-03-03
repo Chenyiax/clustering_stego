@@ -13,11 +13,10 @@ import torch.nn.functional as F
 from torch import nn
 from torchvision import models
 
-import init_function
-from classifier_model import LSTM
+from utils import init_function
+from model_classifier import LSTM
 from utils.function import to_hist_tensor, calculate_entropy_with_hist
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MaxNLocator, FuncFormatter
 
 parser = argparse.ArgumentParser(description='。。。')
 parser.add_argument('--model', default="densenet121", type=str, help='模型, 可选:alexnet, vgg16, resnet18, densenet121, lstm')
@@ -34,15 +33,15 @@ color = ['#F94141', '#589FF3', '#37AB78', '#F3B169', '#808080']
 if args.model == "lstm" or args.model == "transformer":
     init_func = init_function.init_nlp
 else:
-    init_func = getattr(init_function, "init_"+args.model)
+    init_func = getattr(init_function, "init_" + args.model)
 
 target_var = 2e-4
 
 dataset_name = args.dataset
 
 if args.model == "lstm":
-    model1 = LSTM()
-    model2 = LSTM()
+    model1 = LSTM(vocab_size=29668)
+    model2 = LSTM(vocab_size=29668)
 else:
     model1 = getattr(models, args.model)(weights=None)
     model2 = getattr(models, args.model)(weights=None)

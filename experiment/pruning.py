@@ -2,13 +2,12 @@ import numpy as np
 import torch
 from matplotlib import pyplot as plt
 from torch import nn
-from torch.nn.utils import prune
 from torchvision import models
 
-from init_function import init_resnet18
+from utils.init_function import init_resnet18
 from clustering_stego import ClusteringStego
-from get_data import get_cifar10_data
-from test import test_classifier
+from utils.get_data import get_cifar10_data
+from utils.test import test_classifier
 
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.serif'] = ['Times New Roman']
@@ -20,7 +19,7 @@ color = ['#F94141', '#589FF3', '#37AB78', '#F3B169', '#808080']
 
 init_func = init_resnet18
 cs = ClusteringStego(init_func, target_var=2e-4)
-secrets = torch.load("data/secret_ResNet18_cifar10.pth")
+secrets = torch.load("../data/secret_resnet18_cifar10.pth")
 secret_bits = secrets["secret_bits"]
 secret_bits_bch = secrets["secret_bits_bch"]
 acc_list = []
@@ -34,7 +33,7 @@ train_loader, test_loader = get_cifar10_data()
 criterion = torch.nn.CrossEntropyLoss()
 for i in range(0, 100):
 
-    model.load_state_dict(torch.load("model/ResNet18_cifar10_with_secret.pth"))
+    model.load_state_dict(torch.load("../model/resnet18_cifar10_with_secret.pth"))
 
     prune_ratio = 0.01 * i
 
@@ -81,4 +80,4 @@ data = {
 }
 
 # 保存字典到文件
-torch.save(data, 'data/less_pruning.pth')
+torch.save(data, '../data/less_pruning.pth')

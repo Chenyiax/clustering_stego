@@ -6,7 +6,7 @@
 说明: 获取数据集的代码
 """
 import torch
-
+import os
 from torch.utils.data import Dataset, DataLoader, TensorDataset, random_split
 from torchvision import datasets, transforms
 from transformers import BertTokenizer
@@ -174,13 +174,26 @@ def get_sst2_data(batch_size=32):
         vocab_len: 文本长度
 
     '''
+    # 定义缓存目录和数据集名称
     cache_dir = 'dataset'
     dataset_name = 'sst2'
-    cached_dataset_path = cache_dir + '/' + dataset_name
+    # 统一本地数据集路径（关键：路径要和后续保存的路径一致）
+    cached_dataset_path = os.path.join(cache_dir, dataset_name)
+
     try:
-        dataset = load_from_disk('dataset/sst2/')
-    except:
-        dataset = load_dataset(path=dataset_name, cache_dir=cached_dataset_path)
+        # 尝试从本地加载（路径和cached_dataset_path统一）
+        dataset = load_from_disk(cached_dataset_path)
+        print(f"成功从本地加载数据集：{cached_dataset_path}")
+    except FileNotFoundError:  # 精准捕获「路径不存在」异常
+        print(f"本地未找到数据集，开始从网络下载：{dataset_name}")
+        # 从网络下载数据集
+        dataset = load_dataset(path=dataset_name)
+        # 关键：将下载的数据集保存到本地，供下次加载使用
+        dataset.save_to_disk(cached_dataset_path)
+        print(f"数据集已下载并保存到本地：{cached_dataset_path}")
+    except Exception as e:  # 捕获其他异常，方便排查
+        print(f"加载数据集时发生未知错误：{str(e)}")
+        raise  # 抛出异常，避免静默失败
 
     train_data = dataset['train']
     test_data = dataset['test']
@@ -217,7 +230,3 @@ def get_sst2_data(batch_size=32):
     test_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
     return train_dataloader, test_dataloader, max_token + 1, vocab_len
-
-
-if __name__ == '__main__':
-    get_sst2_data()

@@ -3,7 +3,7 @@ import time
 import datetime
 
 # 设置目标文件名
-target_file = "classifier_example_cv.py"  # 替换为实际的py文件路径
+target_file = "example_classifier_cv.py"  # 替换为实际的py文件路径
 log_file = "output_log.txt"  # 日志文件名
 repeat_count = 8  # 重复次数
 interval = 1  # 每次执行的时间间隔（秒）

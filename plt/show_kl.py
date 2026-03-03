@@ -7,19 +7,16 @@
 绘制 kl 散度拟合程度
 '''
 import argparse
-import math
-import torch
 import torch.nn.functional as F
-from torch import nn
-from torchvision import models
-from classifier_model import *
-import init_function
-from get_data import *
+
+import model_gan
+import model_vae
+from model_classifier import *
+from utils import init_function
+from utils.get_data import *
 from utils.function import to_hist_tensor, calculate_entropy_with_hist
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator, FuncFormatter
-import gan_models, vae_model
-from utils.denoising_diffusion_pytorch import Unet
 
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.serif'] = ['Times New Roman']
@@ -65,20 +62,20 @@ elif args.model == 'LSTM':
     model2.load_state_dict(torch.load(f"../model/{args.model}_{args.dataset}_without_secret.pth"))
 elif args.model == 'GeneratorGAN' or args.model == 'GeneratorDCGAN':
     init_func = init_function.init_gan
-    model1 = getattr(gan_models, args.model)(100, (1,28,28))
-    model2 = getattr(gan_models, args.model)(100, (1,28,28))
+    model1 = getattr(model_gan, args.model)(100, (1,28,28))
+    model2 = getattr(model_gan, args.model)(100, (1,28,28))
     model1.load_state_dict(torch.load(f"../model/{args.model}_False.pth"))
     model2.load_state_dict(torch.load(f"../model/{args.model}_True.pth"))
 elif args.model == 'VAE':
     init_func = init_function.init_gan
-    model1 = getattr(vae_model, args.model)(28*28, 100)
-    model2 = getattr(vae_model, args.model)(28*28, 100)
+    model1 = getattr(model_vae, args.model)(28*28, 100)
+    model2 = getattr(model_vae, args.model)(28*28, 100)
     model1.load_state_dict(torch.load(f"../model/{args.model}_False.pth"))
     model2.load_state_dict(torch.load(f"../model/{args.model}_True.pth"))
 elif args.model == 'CVAE':
     init_func = init_function.init_gan
-    model1 = getattr(vae_model, args.model)(100)
-    model2 = getattr(vae_model, args.model)(100)
+    model1 = getattr(model_vae, args.model)(100)
+    model2 = getattr(model_vae, args.model)(100)
     model1.load_state_dict(torch.load(f"../model/{args.model}_False.pth"))
     model2.load_state_dict(torch.load(f"../model/{args.model}_True.pth"))
 elif args.model == 'Unet':
@@ -96,9 +93,6 @@ else:
     model2.load_state_dict(torch.load(f"../model/{args.model}_{args.dataset}_without_secret.pth"))
 
 
-
-# model1 = torch.load(f"../model/{model_name}_with_secret_init.pth")
-# model2 = torch.load(f"../model/{model_name}_without_secret_init.pth")
 print(model1)
 def collect_params_with_criteria(model, params_list, args, init_func):
     """收集满足条件的模型参数"""
@@ -158,7 +152,7 @@ for i, j in zip(params_without_secret, params_with_secret):
     plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x:.2f}'))
     plt.legend(fontsize=16)
     plt.tight_layout()
-    plt.savefig(f'../fig/{args.model}_{args.dataset}_kl_{k}.pdf', dpi=None, format='pdf')
+    # plt.savefig(f'../fig/{args.model}_{args.dataset}_kl_{k}.pdf', dpi=None, format='pdf')
     plt.close()
     k += 1
 

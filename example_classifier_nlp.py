@@ -1,15 +1,11 @@
 import argparse
 
-import torch
-
 from clustering_stego import ClusteringStego
-from classifier_model import *
-from get_data import *
-from test import test_classifier
-from train import *
-from init_function import *
+from utils.test import test_classifier
+from utils.train import *
+from utils.init_function import *
+from utils.get_data import get_sst2_data
 from utils.function import get_model_params
-
 
 parser = argparse.ArgumentParser(description='。。。')
 parser.add_argument('--model', default="Transformer", type=str, help='模型, 可选:LSTM, Transformer')
@@ -20,7 +16,7 @@ parser.add_argument('--target_var', default=2e-4, type=float, help='目标方差
 parser.add_argument('--params_num', default=2048, type=int, help='目标参数数量,只在参数数量大于这个值的层嵌入秘密信息')
 args = parser.parse_args()
 
-module = importlib.import_module("classifier_model")
+module = importlib.import_module("model_classifier")
 # 使用 getattr 获取函数对象
 cls = getattr(module, f"{args.model}")
 # 加载数据集

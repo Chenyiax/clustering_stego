@@ -5,14 +5,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from torch.utils.data import DataLoader, TensorDataset
-from torchvision import datasets, transforms
-import time
 from torchvision import models
 
 from tqdm import tqdm
-
-from get_data import get_cifar10_data, get_mnist_data, get_fashionmnist_data
 
 # 设置设备 (CUDA or CPU)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

@@ -2,21 +2,18 @@ from collections import OrderedDict
 from copy import deepcopy
 
 import torch
-from torchvision.models import resnet18
 
 from clustering_stego import ClusteringStego
-from get_data import get_cifar10_data
-from init_function import init_resnet18
+from utils.init_function import init_resnet18
 from utils.function import get_model_params
-from utils.random_generator import CustomRandomGenerator
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # 创建一个预训练模型
-model = torch.load("./model/ResNet18_cifar10_with_secret.pth")
+model = torch.load("../model/resnet18_cifar10_with_secret.pth")
 
 init_func = init_resnet18
 cs = ClusteringStego(init_func, target_var=2e-4)
-secrets = torch.load("data/secret_ResNet18_cifar10.pth")
+secrets = torch.load("../data/secret_resnet18_cifar10.pth")
 secret_bits = secrets["secret_bits"]
 secret_bits_bch = secrets["secret_bits_bch"]
 

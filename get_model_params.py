@@ -7,14 +7,15 @@
 生成含秘密信息的模型参数或不含秘密信息的模型参数
 """
 import argparse
+import torch
+from torchvision import models
 from clustering_stego import ClusteringStego
-from classifier_model import *
-from init_function import *
-from get_data import get_sst2_data, get_cifar10_data
+from utils.get_data import get_cifar10_data
 
-from test import test_classifier
-from train import train_classifier
+from utils.test import test_classifier
+from utils.train import train_classifier
 from utils.function import get_model_params
+from utils.init_function import init_resnet18
 
 parser = argparse.ArgumentParser(description='。。。')
 parser.add_argument('--with_secret', default=False, type=bool, help='生成的参数是否含有秘密信息')
@@ -24,8 +25,8 @@ parser.add_argument('--epoch', default=100, type=int, help='载体模型在目�
 args = parser.parse_args()
 
 train_loader, test_loader = get_cifar10_data()
-task_model = ResNet18().to("cuda")
-init_func = init_resnet
+task_model = models.resnet18().to("cuda")
+init_func = init_resnet18
 cs = ClusteringStego(init_func)
 
 params = get_model_params(task_model)
