@@ -18,7 +18,6 @@ parser.add_argument('--target_var', default=2e-4, type=float, help='目标方差
 parser.add_argument('--params_num', default=2048, type=int, help='目标参数数量,只比较参数数量大于这个值的层的参数分布')
 args = parser.parse_args()
 
-
 model1 = models.resnet18()
 model1.load_state_dict(torch.load("../model/resnet18_cifar10_with_secret.pth"))
 
@@ -32,23 +31,23 @@ params2 = model2.conv1.weight.detach().numpy()
 X = params1.reshape(192, 49)
 Y = params2.reshape(192, 49)
 
-# 1. 数据标准化
+
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 Y_scaled = scaler.fit_transform(Y)
 
-# 2. PCA降维到2维
+
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)
 Y_pca = pca.fit_transform(Y_scaled)
 
-# 3. 可视化
+
 plt.figure(figsize=(8, 6))
 plt.scatter(X_pca[:, 0], X_pca[:, 1], c='#1f77b4', alpha=0.7, marker='o', label="隐写卷积核")
 plt.scatter(Y_pca[:, 0], Y_pca[:, 1], c='#ff7f0e', alpha=0.7, marker='x', label="载体卷积核")
 plt.legend()
 plt.savefig("../png/pca.png", format="png")
 plt.show()
-# 4. 查看解释方差比（每个主成分的重要性）
+
 print("Explained variance ratio:", pca.explained_variance_ratio_)
 print("Cumulative explained variance:", np.cumsum(pca.explained_variance_ratio_))

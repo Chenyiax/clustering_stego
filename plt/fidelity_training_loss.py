@@ -1,25 +1,12 @@
-'''
-文件名: kl_diver.py
-作者: 徐辰屹
-日期: 2024年4月29日
-
-说明:
-绘制损失函数收敛情况
-'''
 import matplotlib.pyplot as plt
 import torch
 from matplotlib.ticker import MaxNLocator, FuncFormatter
+from plt.mpl_config import set_style
 
+color = set_style()
 model_list = ["alexnet", "vgg16", "resnet18"]
 dataset_list = ["mnist", "fashionmnist", "cifar10"]
 
-plt.rcParams['font.family']=' Times New Roman, SimSun'# 设置字体族，中文为SimSun，英文为Times New Roman
-plt.rcParams['mathtext.fontset'] = 'stix' # 设置数学公式字体为stix
-plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
-plt.rcParams['font.size'] = 18
-
-cmap = plt.get_cmap('bwr') # bwr 色组
-color = ['#E64A4A', '#5B9BD5', '#40A877', '#F0C078', '#8C8C8C', '#FF9900']
 line_width = 1.1
 for dataset in dataset_list:
     for model in model_list:
@@ -40,7 +27,7 @@ for dataset in dataset_list:
         plt.plot(loss5, color=color[2], label="第三章方法", linewidth=line_width)
         plt.plot(loss2, color=color[1], label="第四章方法", linewidth=line_width)
 
-        plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))  # 自动选择范围(nbins表示有几个刻度)
+        plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))
         plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x:.2f}'))
         plt.legend()
         plt.xlabel("训练轮数")
@@ -59,7 +46,7 @@ for dataset in dataset_list:
     plt.plot(loss3, color=color[2], label="第三章方法", linewidth=line_width)
     plt.plot(loss2, color=color[1], label="第四章方法", linewidth=line_width)
 
-    plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))  # 自动选择范围(nbins表示有几个刻度)
+    plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))
     plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x:.2f}'))
     plt.legend()
     plt.xlabel("训练轮数")

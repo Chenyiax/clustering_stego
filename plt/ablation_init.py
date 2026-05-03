@@ -1,5 +1,7 @@
 import torch
 from matplotlib import pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
 from plt.mpl_config import set_style
 
 color = set_style()

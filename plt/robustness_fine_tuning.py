@@ -3,12 +3,9 @@ import torch
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator, FuncFormatter
 
-plt.rcParams['font.family']=' Times New Roman, SimSun'# 设置字体族，中文为SimSun，英文为Times New Roman
-plt.rcParams['mathtext.fontset'] = 'stix' # 设置数学公式字体为stix
-plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
-plt.rcParams['font.size'] = 18
+from plt.mpl_config import set_style
 
-color = ['#E64A4A', '#5B9BD5', '#40A877', '#F0C078', '#8C8C8C', '#FF9900']
+color = set_style()
 
 fine_tuning_rate = '0.0001'
 line_width = 1.1

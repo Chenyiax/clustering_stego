@@ -3,12 +3,10 @@ import torch
 from matplotlib import pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
-plt.rcParams['font.family'] = 'serif'
-plt.rcParams['font.serif'] = ['Times New Roman']
-plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
-plt.rcParams.update({'font.size': 18})
+from plt.mpl_config import set_style
 
-color = ['#F94141', '#589FF3', '#37AB78', '#F3B169', '#808080']
+color = set_style()
+
 lr = [1e-4, 2e-4, 3e-4, 4e-4, 5e-4]
 
 for index, i in enumerate(lr):

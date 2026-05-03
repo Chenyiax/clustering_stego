@@ -145,7 +145,7 @@ for i, j in zip(params_without_secret, params_with_secret):
     plt.xlabel('参数值')
     plt.ylabel('频率')
     plt.title(f"KL = {kl_divergence:.4f}")
-    plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))  # 自动选择范围(nbins表示有几个刻度)
+    plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))
     plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x:.2f}'))
     plt.legend(fontsize=16)
     plt.tight_layout()

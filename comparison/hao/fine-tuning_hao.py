@@ -12,7 +12,6 @@ from tqdm import tqdm
 from torchvision import models
 from utils.cutout import Cutout
 
-# 设置设备 (CUDA or CPU)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 parser = argparse.ArgumentParser(description='。。。')

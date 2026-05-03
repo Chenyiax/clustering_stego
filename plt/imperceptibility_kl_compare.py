@@ -46,7 +46,7 @@ hist_tensor2, bin_centers2 = to_hist_tensor(watermarklayer.weight.view(-1), bins
 
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.serif'] = ['Times New Roman']
-plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
+plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams.update({'font.size': 18})
 
 # 颜色数组
@@ -57,7 +57,7 @@ plt.plot(bin_centers1, hist_tensor1, color=color[0], label='Cover model')
 plt.plot(bin_centers2, hist_tensor2, color=color[1], label='Stego model')
 plt.xlabel('Parameter values')
 plt.ylabel('Frequency')
-plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))  # 自动选择范围(nbins表示有几个刻度)
+plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, integer=False))
 plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x:.2f}'))
 plt.legend()
 plt.tight_layout()
