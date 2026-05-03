@@ -83,7 +83,7 @@ with torch.no_grad():
     # 从潜在空间采样并解码生成图像
     z = torch.randn(25, opt.latent_dim).to(device)
     generated_images = model.decode(z).view(-1, 1, 28, 28)
-    save_image(generated_images, f"images/{model.__class__.__name__}_{opt.embedding_secret}.png", nrow=5,normalize=True)
+    save_image(generated_images, f"png/{model.__class__.__name__}_{opt.embedding_secret}.png", nrow=5,normalize=True)
 
 # 假设opt和generator已经定义
 z = torch.randn(64, opt.latent_dim).to("cuda")

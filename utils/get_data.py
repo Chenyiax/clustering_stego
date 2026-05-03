@@ -14,7 +14,7 @@ from datasets import load_dataset, load_from_disk
 
 from utils.cutout import Cutout
 
-
+dataset_path = "./dataset" if os.path.exists("./dataset") else "../dataset"
 def get_cifar10_data(batch_size=64):
     '''
     获取 CIFAR10 数据集
@@ -41,10 +41,10 @@ def get_cifar10_data(batch_size=64):
     ])
 
     # 下载MNIST训练集
-    train_dataset = datasets.CIFAR10(root='./dataset', train=True, transform=transform_train, download=True)
+    train_dataset = datasets.CIFAR10(root=dataset_path, train=True, transform=transform_train, download=True)
 
     # 下载MNIST测试集
-    test_dataset = datasets.CIFAR10(root='./dataset', train=False, transform=transform_test, download=True)
+    test_dataset = datasets.CIFAR10(root=dataset_path, train=False, transform=transform_test, download=True)
 
     # 创建数据加载器
     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
@@ -70,10 +70,10 @@ def get_mnist_data(batch_size=64):
     ])
 
     # 下载MNIST训练集
-    train_dataset = datasets.MNIST(root='./dataset', train=True, transform=transform_mnist, download=True)
+    train_dataset = datasets.MNIST(root=dataset_path, train=True, transform=transform_mnist, download=True)
 
     # 下载MNIST测试集
-    test_dataset = datasets.MNIST(root='./dataset', train=False, transform=transform_mnist, download=True)
+    test_dataset = datasets.MNIST(root=dataset_path, train=False, transform=transform_mnist, download=True)
 
     # 创建数据加载器
     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
@@ -96,10 +96,10 @@ def get_mnist_data_gan(batch_size=64):
     ])
 
     # 下载MNIST训练集
-    train_dataset = datasets.MNIST(root='./dataset', train=True, transform=transform_mnist, download=True)
+    train_dataset = datasets.MNIST(root=dataset_path, train=True, transform=transform_mnist, download=True)
 
     # 下载MNIST测试集
-    test_dataset = datasets.MNIST(root='./dataset', train=False, transform=transform_mnist, download=True)
+    test_dataset = datasets.MNIST(root=dataset_path, train=False, transform=transform_mnist, download=True)
 
     # 创建数据加载器
     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
@@ -122,10 +122,10 @@ def get_mnist_data_vae(batch_size=64):
     ])
 
     # 下载MNIST训练集
-    train_dataset = datasets.MNIST(root='./dataset', train=True, transform=transform_mnist, download=True)
+    train_dataset = datasets.MNIST(root=dataset_path, train=True, transform=transform_mnist, download=True)
 
     # 下载MNIST测试集
-    test_dataset = datasets.MNIST(root='./dataset', train=False, transform=transform_mnist, download=True)
+    test_dataset = datasets.MNIST(root=dataset_path, train=False, transform=transform_mnist, download=True)
 
     # 创建数据加载器
     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
@@ -151,10 +151,10 @@ def get_fashionmnist_data(batch_size=64):
     ])
 
     # 下载MNIST训练集
-    train_dataset = datasets.FashionMNIST(root='./dataset', train=True, transform=transform_mnist, download=True)
+    train_dataset = datasets.FashionMNIST(root=dataset_path, train=True, transform=transform_mnist, download=True)
 
     # 下载MNIST测试集
-    test_dataset = datasets.FashionMNIST(root='./dataset', train=False, transform=transform_mnist, download=True)
+    test_dataset = datasets.FashionMNIST(root=dataset_path, train=False, transform=transform_mnist, download=True)
 
     # 创建数据加载器
     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)

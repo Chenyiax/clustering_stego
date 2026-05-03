@@ -8,6 +8,8 @@ from sklearn.preprocessing import StandardScaler
 from torchvision import models
 
 from utils.init_function import init_resnet18
+from plt.mpl_config import set_style
+color = set_style()
 
 parser = argparse.ArgumentParser(description='。。。')
 parser.add_argument('--model', default="resnet18", type=str, help='模型, 可选:alexnet, vgg16, resnet18, densenet121, vit_b_16, LSTM, Transformer')
@@ -27,11 +29,6 @@ init_func = init_resnet18
 params1 = model1.conv1.weight.detach().numpy()
 params2 = model2.conv1.weight.detach().numpy()
 
-plt.rcParams['font.family'] = 'serif'
-plt.rcParams['font.serif'] = ['Times New Roman']
-plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
-plt.rcParams.update({'font.size': 18})
-
 X = params1.reshape(192, 49)
 Y = params2.reshape(192, 49)
 
@@ -47,10 +44,10 @@ Y_pca = pca.fit_transform(Y_scaled)
 
 # 3. 可视化
 plt.figure(figsize=(8, 6))
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c='#1f77b4', alpha=0.7, marker='o', label="Stego kernels")
-plt.scatter(Y_pca[:, 0], Y_pca[:, 1], c='#ff7f0e', alpha=0.7, marker='x', label="Cover kernels")
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c='#1f77b4', alpha=0.7, marker='o', label="隐写卷积核")
+plt.scatter(Y_pca[:, 0], Y_pca[:, 1], c='#ff7f0e', alpha=0.7, marker='x', label="载体卷积核")
 plt.legend()
-plt.savefig("../fig/pca.pdf", format="pdf")
+plt.savefig("../png/pca.png", format="png")
 plt.show()
 # 4. 查看解释方差比（每个主成分的重要性）
 print("Explained variance ratio:", pca.explained_variance_ratio_)

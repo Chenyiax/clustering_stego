@@ -112,7 +112,7 @@ for epoch in range(opt.n_epochs):
         % (epoch, opt.n_epochs, d_loss.item(), g_loss.item())
     )
 
-save_image(gen_imgs.data[:25], f"images/{generator.__class__.__name__}_{opt.embedding_secret}.png", nrow=5, normalize=True)
+save_image(gen_imgs.data[:25], f"png/{generator.__class__.__name__}_{opt.embedding_secret}.png", nrow=5, normalize=True)
 
 
 # 假设opt和generator已经定义
